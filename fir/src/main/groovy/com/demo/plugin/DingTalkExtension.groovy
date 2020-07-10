@@ -6,7 +6,8 @@ public class DingTalkExtension {
     private String webHook
     private String title
     private String content
-
+    private boolean isAtAll
+    private List<String> atMobiles
     @Inject
     public DingTalkExtension() {
     }
@@ -35,6 +36,22 @@ public class DingTalkExtension {
         this.content = content
     }
 
+    boolean getIsAtAll() {
+        return isAtAll
+    }
+
+    void setIsAtAll(boolean isAtAll) {
+        this.isAtAll = isAtAll
+    }
+
+    List<String> getAtMobiles() {
+        return atMobiles
+    }
+
+    void setAtMobiles(List<String> atMobiles) {
+        this.atMobiles = atMobiles
+    }
+
 
     @Override
     public String toString() {
@@ -42,6 +59,8 @@ public class DingTalkExtension {
                 "webHook='" + webHook + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
+                ", isAtAll=" + isAtAll +
+                ", atMobiles=" + atMobiles +
                 '}';
     }
 }

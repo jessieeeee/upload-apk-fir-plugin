@@ -41,7 +41,7 @@ class PluginImpl implements Plugin<Project> {
                     ApkInfo apkInfo = okHttpUtil.getApkUrl(appPackage,apiTokenFir)
                     println("下载链接:" + apkInfo.installUrl)
 
-                    def (String content, String title, String webHook) = getDingTalkParams()
+                    def (String content, String title, String webHook, boolean isAtAll,List<String> atMobiles) = getDingTalkParams()
                     String dingTalkMsg = "点击跳转gilos下载链接(版本号:" + appBuild + "    版本名称:"+ appVersion + ")"
                     if (content.length() > 0){
                         dingTalkMsg = dingTalkMsg + "，此次更新:" + content
@@ -51,7 +51,7 @@ class PluginImpl implements Plugin<Project> {
                      * 发送钉钉消息
                      */
                     okHttpUtil.sendDingTalkLink(dingTalkMsg,title,apkInfo.installUrl,webHook)
-                    okHttpUtil.sendDingTalkMsg(apkInfo.installUrl,webHook)
+                    okHttpUtil.sendDingTalkMsg(content,webHook,isAtAll,atMobiles)
                 }
 
                 // 在assembleDebug执行后执行
@@ -64,7 +64,9 @@ class PluginImpl implements Plugin<Project> {
         String webHook = extension.getDingTalkExtension().getWebHook()
         String title = extension.getDingTalkExtension().getTitle()
         String content = extension.getDingTalkExtension().getContent()
-        [content, title, webHook]
+        String isAtAll = extension.getDingTalkExtension().getIsAtAll()
+        List<String> atMobiles = extension.getDingTalkExtension().getAtMobiles()
+        [content, title, webHook, isAtAll, atMobiles]
     }
 
     private List getParams(Project project, variant) {

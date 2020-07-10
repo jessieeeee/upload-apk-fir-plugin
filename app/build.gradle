@@ -7,12 +7,14 @@ apply plugin: 'kotlin-android-extensions'
 //    fir {
 //        appName = "Gilos"
 //        iconPath = "src/main/res/mipmap-xxxhdpi/ic_launcher.png"
-//        token = "xxxxxxxxxxxx"
+//        token = "fir平台的token"
 //    }
 //    dingTalk{
-//        webHook = "xxxxxxxxxxxx"
+//        webHook = "钉钉机器人的webhook"
 //        title = "Android：Gilos打包完成"
-//        content = "修改BUG" //更新内容
+//        content = "带关键字的消息内容" //更新内容
+//        isAtAll = false  // 是否at所有人
+//        atMobiles = ["手机号1","手机号2"]   //at某些人
 //    }
 //
 //}

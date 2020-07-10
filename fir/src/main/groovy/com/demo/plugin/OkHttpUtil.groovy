@@ -81,9 +81,9 @@ public class OkHttpUtil{
         println("已发送钉钉链接:$result")
     }
 
-    void sendDingTalkMsg(String url,String webHook){
+    void sendDingTalkMsg(String text,String webHook,boolean isAtAll,List<String> atMobiles){
         RequestBody textBody = FormBody.create(MediaType.parse("application/json; charset=utf-8")
-                , dingTalk.createTextMsg("gilos下载链接:$url"))
+                , dingTalk.createTextMsg(text,atMobiles,isAtAll))
         Request textDingTalk = new Request.Builder().url(webHook)
                 .post(textBody).build()
         Response responseText = okHttpClient.newCall(textDingTalk).execute()

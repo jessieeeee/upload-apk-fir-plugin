@@ -33,10 +33,20 @@ public class DingTalk {
     def class TextMsg{
         String msgtype
         Text text
-
-        public TextMsg(String msgtype,Text text){
+        At at
+        public TextMsg(String msgtype,Text text,At at){
             this.msgtype = msgtype
             this.text = text
+            this.at = at
+        }
+    }
+
+    def class At{
+        List<String> atMobiles = new ArrayList<>()
+        boolean isAtAll = true
+        public At(List<String> atMobiles,boolean isAtAll){
+            this.isAtAll = isAtAll
+            this.atMobiles = atMobiles
         }
     }
 
@@ -68,9 +78,11 @@ public class DingTalk {
      * @param text String
      * @return String
      */
-    String createTextMsg(String content){
+    String createTextMsg(String content,List<String> atMobiles,boolean isAtAll){
         Text text = new Text(content)
-        TextMsg textMsg = new TextMsg("text", text)
+        At at = new At(atMobiles,isAtAll)
+        TextMsg textMsg = new TextMsg("text", text, at )
+        println("序列化结果" + gson.toJson(textMsg))
         return gson.toJson(textMsg)
     }
 }
