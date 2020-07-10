@@ -45,8 +45,13 @@ public class DingTalk {
         List<String> atMobiles = new ArrayList<>()
         boolean isAtAll = true
         public At(List<String> atMobiles,boolean isAtAll){
-            this.isAtAll = isAtAll
             this.atMobiles = atMobiles
+            if (!atMobiles.isEmpty()){
+                this.isAtAll = false
+            }
+            else{
+                this.isAtAll = isAtAll
+            }
         }
     }
 
