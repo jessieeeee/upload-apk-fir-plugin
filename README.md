@@ -28,7 +28,7 @@ uploadApk {
     dingTalk{
         webHook = "钉钉机器人的webhook"
         title = "Android：xxx打包完成"//消息标题
-        content = "带关键字的消息内容" //更新内容
+        content = "带关键字的消息内容" //这个关键字跟自定义钉钉机器人的安全设置有关
         isAtAll = false  // 是否at所有人
         atMobiles = ["手机号1","手机号2"]   //at某些人
     }
