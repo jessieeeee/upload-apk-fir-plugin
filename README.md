@@ -42,7 +42,7 @@ uploadApk {
 - 如果不清楚当前项目中有哪些打包任务名，在app的gradle文件中增加以下代码，打印插件所有的可执行命令
 ```groovy
  project.android.applicationVariants.all { variant ->
-    print("assemble" + variant.name.capitalize() +"Fir")
+    println("assemble${variant.name.capitalize()}Fir")
  }
 ```
 ## 执行插件命令

@@ -12,7 +12,7 @@ class PluginImpl implements Plugin<Project> {
         if (project.android.hasProperty("applicationVariants")) {
             project.android.applicationVariants.all { variant ->
 
-                Task uploadFir = project.task("assemble" + variant.name.capitalize() +"Fir").doLast {
+                Task uploadFir = project.task("assemble${variant.name.capitalize()}Fir").doLast {
                     println("开始上传Fir")
                     def (String appPackage, String apiTokenFir, String apkPath, String fileName, String appName, String appVersion, String appBuild, String apkIconPath) = getParams(project, variant)
                     OkHttpUtil okHttpUtil = new OkHttpUtil()
@@ -27,7 +27,7 @@ class PluginImpl implements Plugin<Project> {
                     String upload_url = certBean.getBinary().getUpload_url()
 
                     String jsonApk = okHttpUtil.uploadApk(apkPath,key,token,appName,appVersion,appBuild,fileName,upload_url)
-                    println("上传apk文件返回结果:" + jsonApk)
+                    println("上传apk文件返回结果:$jsonApk")
 
                     // 上传icon
                     println("上传Icon中...")
@@ -36,15 +36,15 @@ class PluginImpl implements Plugin<Project> {
                     String upload_urlIcon = certBean.getIcon().getUpload_url()
 
                     String jsonIcon = okHttpUtil.uploadIcon(apkIconPath,keyIcon,tokenIcon,upload_urlIcon)
-                    println("上传Icon返回结果:" + jsonIcon)
+                    println("上传Icon返回结果:$jsonIcon")
 
                     ApkInfo apkInfo = okHttpUtil.getApkUrl(appPackage,apiTokenFir)
-                    println("下载链接:" + apkInfo.installUrl)
+                    println("下载链接:${apkInfo.installUrl}")
 
                     def (String content, String title, String webHook, boolean isAtAll,List<String> atMobiles) = getDingTalkParams()
-                    String dingTalkMsg = "点击跳转gilos下载链接(版本号:" + appBuild + "    版本名称:"+ appVersion + ")"
+                    String dingTalkMsg = "点击跳转gilos下载链接(版本号:$appBuild    版本名称:$appVersion)"
                     if (content.length() > 0){
-                        dingTalkMsg = dingTalkMsg + "，此次更新:" + content
+                        dingTalkMsg = "$dingTalkMsg，此次更新:$content"
                     }
 
                     /**
@@ -55,7 +55,7 @@ class PluginImpl implements Plugin<Project> {
                 }
 
                 // 在assembleDebug执行后执行
-                uploadFir.dependsOn project.tasks["assemble" + variant.name.capitalize() ]
+                uploadFir.dependsOn project.tasks["assemble${variant.name.capitalize()}"]
             }
         }
     }
@@ -79,14 +79,14 @@ class PluginImpl implements Plugin<Project> {
         String apkIconPath = project.android.applicationVariants.first().outputs.first().outputFile.parent.split("build")[0] + extension.getFirExtension().getIconPath()
         String apiTokenFir = extension.getFirExtension().getToken()
         // 获取上传凭证
-//                        println("appName..." + appName)
-//                        println("appPackage..." + appPackage)
-//                        println("appVersion..." + appVersion)
-//                        println("appBuild..." + appBuild)
-//                        println("apiTokenFir..." + apiTokenFir)
-//                        println("apkIconPath..." + apkIconPath)
-        println("文件路径:" + apkPath)
-        println("文件名称:" + fileName)
+//                        println("appName:$appName")
+//                        println("appPackage:$appPackage")
+//                        println("appVersion:${appVersion}")
+//                        println("appBuild:${appBuild}")
+//                        println("apiTokenFir:${apiTokenFir}")
+//                        println("apkIconPath:${apkIconPath}")
+        println("文件路径:$apkPath")
+        println("文件名称:$fileName")
         [appPackage, apiTokenFir, apkPath, fileName, appName, appVersion, appBuild, apkIconPath]
     }
 

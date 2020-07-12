@@ -87,7 +87,6 @@ public class DingTalk {
         Text text = new Text(content)
         At at = new At(atMobiles,isAtAll)
         TextMsg textMsg = new TextMsg("text", text, at )
-        println("序列化结果" + gson.toJson(textMsg))
         return gson.toJson(textMsg)
     }
 }

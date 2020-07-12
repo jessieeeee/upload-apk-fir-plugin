@@ -1,16 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-
+//apply plugin: 'com.demo.plugin'
 //uploadApk {
 //    fir {
-//        appName = "Gilos"
+//        appName = "你的app名称"
 //        iconPath = "src/main/res/mipmap-xxxhdpi/ic_launcher.png"
 //        token = "fir平台的token"
 //    }
 //    dingTalk{
 //        webHook = "钉钉机器人的webhook"
-//        title = "Android：Gilos打包完成"
+//        title = "Android：xxx打包完成"
 //        content = "带关键字的消息内容" //更新内容
 //        isAtAll = false  // 是否at所有人
 //        atMobiles = ["手机号1","手机号2"]   //at某些人
@@ -41,7 +41,9 @@ android {
         }
     }
 }
-
+//project.android.applicationVariants.all { variant ->
+//    println("assemble${variant.name.capitalize()}Fir")
+//}
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
