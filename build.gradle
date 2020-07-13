@@ -12,8 +12,8 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.github.jessieeeee:upload-apk-fir-plugin:0.7'
-//        classpath 'com.demo.plugin:firPlugin:0.4'
+//        classpath 'com.github.jessieeeee:upload-apk-fir-plugin:0.7'
+//        classpath 'com.demo.plugin:firPlugin:0.8'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }

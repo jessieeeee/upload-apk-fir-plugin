@@ -3,11 +3,12 @@
   <groupId>com.demo.plugin</groupId>
   <artifactId>firPlugin</artifactId>
   <versioning>
-    <release>0.4</release>
+    <release>0.8</release>
     <versions>
       <version>0.3</version>
       <version>0.4</version>
+      <version>0.8</version>
     </versions>
-    <lastUpdated>20200712111300</lastUpdated>
+    <lastUpdated>20200713023859</lastUpdated>
   </versioning>
 </metadata>

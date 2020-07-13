@@ -75,7 +75,8 @@ class PluginImpl implements Plugin<Project> {
         String appVersion = project.android.defaultConfig.versionName
         String appBuild = project.android.defaultConfig.versionCode
         String apkPath = variant.outputs.first().outputFile
-        String fileName = apkPath.substring(apkPath.lastIndexOf("\\") + 1, apkPath.length())
+        File file = new File(apkPath)
+        String fileName = file.getName()
         String apkIconPath = project.android.applicationVariants.first().outputs.first().outputFile.parent.split("build")[0] + extension.getFirExtension().getIconPath()
         String apiTokenFir = extension.getFirExtension().getToken()
         // 获取上传凭证
