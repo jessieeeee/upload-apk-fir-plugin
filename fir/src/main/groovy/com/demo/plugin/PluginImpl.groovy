@@ -42,7 +42,7 @@ class PluginImpl implements Plugin<Project> {
                     println("下载链接:${apkInfo.installUrl}")
 
                     def (String content, String title, String webHook, boolean isAtAll,List<String> atMobiles) = getDingTalkParams()
-                    String dingTalkMsg = "点击跳转gilos下载链接(版本号:$appBuild    版本名称:$appVersion)"
+                    String dingTalkMsg = "点击跳转下载链接(版本号:$appBuild    版本名称:$appVersion)"
                     if (content.length() > 0){
                         dingTalkMsg = "${dingTalkMsg}，此次更新:$content"
                     }
