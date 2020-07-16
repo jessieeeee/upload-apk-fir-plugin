@@ -86,8 +86,8 @@ class PluginImpl implements Plugin<Project> {
 //                        println("appBuild:${appBuild}")
 //                        println("apiTokenFir:${apiTokenFir}")
 //                        println("apkIconPath:${apkIconPath}")
-        println("文件路径:$apkPath")
-        println("文件名称:$fileName")
+//        println("文件路径:$apkPath")
+//        println("文件名称:$fileName")
         [appPackage, apiTokenFir, apkPath, fileName, appName, appVersion, appBuild, apkIconPath]
     }
 
