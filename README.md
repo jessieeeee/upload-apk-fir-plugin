@@ -11,7 +11,7 @@ buildscript {
         ...
     }
     dependencies {
-        classpath 'com.github.jessieeeee:upload-apk-fir-plugin:0.9' //Jitpack插件引用（增加这行代码）
+        classpath 'com.github.jessieeeee:upload-apk-fir-plugin:1.0' //Jitpack插件引用（增加这行代码）
     }
 }
 ```
