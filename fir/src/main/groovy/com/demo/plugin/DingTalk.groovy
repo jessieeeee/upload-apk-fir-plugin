@@ -46,7 +46,7 @@ public class DingTalk {
         boolean isAtAll = true
         public At(List<String> atMobiles,boolean isAtAll){
             this.atMobiles = atMobiles
-            if (atMobiles == null || !atMobiles.isEmpty()){
+            if (atMobiles != null && !atMobiles.isEmpty()){
                 this.isAtAll = false
             }
             else{
