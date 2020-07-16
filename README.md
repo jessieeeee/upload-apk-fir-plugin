@@ -39,7 +39,7 @@ uploadApk {
 - 兼容所有flavor下的debug/release打包
 - gradle的打包任务名为flavor和debug/release模式组合而成
 - 插件的执行命令为"assemble" + 打包任务名首字母大写 +"Fir"
-- 如果不清楚当前项目中有哪些打包任务名，在app的gradle文件中增加以下代码，打印插件所有的可执行命令
+- 如果不清楚当前项目中有哪些打包任务名，在app的gradle文件中最外层任意位置增加以下代码同步一下，打印插件所有的可执行命令
 ```groovy
  project.android.applicationVariants.all { variant ->
     println("assemble${variant.name.capitalize()}Fir")
@@ -57,3 +57,24 @@ uploadApk {
 `gradle assembleGooglePlayDebugFir`
 - release包
 `gradle assembleGooglePlayReleaseFir`
+## 钉钉机器人查看webHook
+![钉钉机器人][1]
+![钉钉机器人][2]
+![钉钉机器人][3]
+![钉钉机器人][4]
+![钉钉机器人][5]
+
+
+
+## fir查看token
+![fir][6]
+![fir][7]
+
+
+[1]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/robot1.png
+[2]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/robot2.png
+[3]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/robot3.png
+[4]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/robot4.png
+[5]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/robot5.png
+[6]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/fir1.png
+[7]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/fir2.png
