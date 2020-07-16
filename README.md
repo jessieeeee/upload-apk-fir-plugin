@@ -71,10 +71,10 @@ uploadApk {
 ![fir][7]
 
 
-[1]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/robot1.png
-[2]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/robot2.png
-[3]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/robot3.png
-[4]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/robot4.png
-[5]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/robot5.png
-[6]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/fir1.png
-[7]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/fir2.png
+[1]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/screenshot/robot1.png
+[2]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/screenshot/robot2.png
+[3]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/screenshot/robot3.png
+[4]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/screenshot/robot4.png
+[5]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/screenshot/robot5.png
+[6]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/screenshot/fir1.png
+[7]: https://github.com/jessieeeee/upload-apk-fir-plugin/blob/master/screenshot/fir2.png
