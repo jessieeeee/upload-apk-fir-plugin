@@ -39,7 +39,7 @@ uploadApk {
 - 兼容所有flavor下的debug/release打包
 - gradle的打包任务名为flavor和debug/release模式组合而成
 - 插件的执行命令为"assemble" + 打包任务名首字母大写 +"Fir"
-- 如果不清楚当前项目中有哪些打包任务名，在app的gradle文件中最外层任意位置增加以下代码同步一下，打印插件所有的可执行命令
+- 如果不清楚当前项目中有哪些打包任务名，在app的gradle文件中最外层任意位置增加以下代码，sync一下，打印插件所有的可执行命令
 ```groovy
  project.android.applicationVariants.all { variant ->
     println("assemble${variant.name.capitalize()}Fir")
