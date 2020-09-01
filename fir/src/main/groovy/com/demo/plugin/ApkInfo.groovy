@@ -14,77 +14,77 @@ public class ApkInfo {
      * binary : {"fsize":6446245}
      */
 
-    private String name;
-    private String version;
-    private String changelog;
-    private String versionShort;
-    private String build;
-    private String installUrl;
-    private String install_url;
-    private String update_url;
+    private String name
+    private String version
+    private String changelog
+    private String versionShort
+    private String build
+    private String installUrl
+    private String install_url
+    private String update_url
 
     public String getName() {
-        return name;
+        return name
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name
     }
 
     public String getVersion() {
-        return version;
+        return version
     }
 
     public void setVersion(String version) {
-        this.version = version;
+        this.version = version
     }
 
     public String getChangelog() {
-        return changelog;
+        return changelog
     }
 
     public void setChangelog(String changelog) {
-        this.changelog = changelog;
+        this.changelog = changelog
     }
 
     public String getVersionShort() {
-        return versionShort;
+        return versionShort
     }
 
     public void setVersionShort(String versionShort) {
-        this.versionShort = versionShort;
+        this.versionShort = versionShort
     }
 
     public String getBuild() {
-        return build;
+        return build
     }
 
     public void setBuild(String build) {
-        this.build = build;
+        this.build = build
     }
 
     public String getInstallUrl() {
-        return installUrl;
+        return installUrl
     }
 
     public void setInstallUrl(String installUrl) {
-        this.installUrl = installUrl;
+        this.installUrl = installUrl
     }
 
     public String getInstall_url() {
-        return install_url;
+        return install_url
     }
 
     public void setInstall_url(String install_url) {
-        this.install_url = install_url;
+        this.install_url = install_url
     }
 
     public String getUpdate_url() {
-        return update_url;
+        return update_url
     }
 
     public void setUpdate_url(String update_url) {
-        this.update_url = update_url;
+        this.update_url = update_url
     }
 
 

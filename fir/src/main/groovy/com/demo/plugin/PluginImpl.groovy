@@ -14,7 +14,7 @@ class PluginImpl implements Plugin<Project> {
 
                 Task uploadFir = project.task("assemble${variant.name.capitalize()}Fir").doLast {
                     println("开始上传Fir")
-                    def (String appPackage, String apiTokenFir, String apkPath, String fileName, String appName, String appVersion, String appBuild, String apkIconPath) = getParams(project, variant)
+                    def (String appPackage, String apiTokenFir, String apkPath, String fileName, String appName, String appVersion, String appBuild, String apkIconPath) = getParamsFir(project, variant)
                     OkHttpUtil okHttpUtil = new OkHttpUtil()
                     BundleApp bundleApp = okHttpUtil.getCert(appPackage,apiTokenFir)
                     println("获取凭证信息成功")
@@ -41,23 +41,42 @@ class PluginImpl implements Plugin<Project> {
                     ApkInfo apkInfo = okHttpUtil.getApkUrl(appPackage,apiTokenFir)
                     println("下载链接:${apkInfo.installUrl}")
 
-                    def (String content, String title, String webHook, boolean isAtAll,List<String> atMobiles) = getDingTalkParams()
-                    String dingTalkMsg = "点击跳转下载链接(版本号:$appBuild    版本名称:$appVersion)"
-                    if (content.length() > 0){
-                        dingTalkMsg = "${dingTalkMsg}，此次更新:$content"
-                    }
-
-                    /**
-                     * 发送钉钉消息
-                     */
-                    okHttpUtil.sendDingTalkLink(dingTalkMsg,title,apkInfo.installUrl,webHook)
-                    okHttpUtil.sendDingTalkMsg(content,webHook,isAtAll,atMobiles)
+                    sendDingTalk(appBuild, appVersion, okHttpUtil, apkInfo.installUrl,"")
                 }
 
                 // 在assembleDebug执行后执行
                 uploadFir.dependsOn project.tasks["assemble${variant.name.capitalize()}"]
+
+                Task uploadPgyer = project.task("assemble${variant.name.capitalize()}Pgyer").doLast {
+                    println("开始上传Pgyer")
+                    def (String appPackage,String apkPath,String fileName,String appVersion,String appBuild,String apiKey) = getParamsPgyer(project,variant)
+                    OkHttpUtil okHttpUtil = new OkHttpUtil()
+                    UploadApp uploadApp = okHttpUtil.uploadApkPgyer(apkPath, apiKey,fileName)
+                    println("上传apk文件返回结果:$uploadApp")
+                    sendDingTalk(appBuild, appVersion, okHttpUtil, uploadApp.data.buildShortcutUrl,uploadApp.data.buildQRCodeURL)
+                }
+
+                // 在assembleDebug执行后执行
+                uploadPgyer.dependsOn project.tasks["assemble${variant.name.capitalize()}"]
             }
         }
+    }
+
+    private void sendDingTalk(String appBuild, String appVersion, OkHttpUtil okHttpUtil, String installUrl, String qr) {
+        def (String content, String title,String qrTitle,String qrContent,String webHook, boolean isAtAll, List<String> atMobiles) = getDingTalkParams()
+        String dingTalkMsg = "点击跳转下载链接(版本号:$appBuild    版本名称:$appVersion)"
+        if (content.length() > 0) {
+            dingTalkMsg = "${dingTalkMsg}，此次更新:$content"
+        }
+        if (!qr.isEmpty()){
+            println("发送二维码地址:$qr")
+            okHttpUtil.sendDingTalkLink(qrContent, qrTitle, qr, webHook)
+        }
+        /**
+         * 发送钉钉消息
+         */
+        okHttpUtil.sendDingTalkLink(dingTalkMsg, title, installUrl, webHook)
+        okHttpUtil.sendDingTalkMsg(content, webHook, isAtAll, atMobiles)
     }
 
     private List getDingTalkParams() {
@@ -65,18 +84,20 @@ class PluginImpl implements Plugin<Project> {
         String title = extension.getDingTalkExtension().getTitle()
         String content = extension.getDingTalkExtension().getContent()
         String isAtAll = extension.getDingTalkExtension().getIsAtAll()
+        String qrTitle = extension.getDingTalkExtension().getQrTitle()
+        String qrContent = extension.getDingTalkExtension().getQrContent()
         List<String> atMobiles = extension.getDingTalkExtension().getAtMobiles()
-        [content, title, webHook, isAtAll, atMobiles]
+        [content, title, qrTitle, qrContent, webHook, isAtAll, atMobiles]
     }
 
-    private List getParams(Project project, variant) {
+    private List getParamsPgyer(Project project, variant){
+        String apiKey = extension.getPgyerExtension().getApiKey()
+        def (String appPackage, String apkPath, String fileName, String appVersion, String appBuild) = getCommon(project, variant)
+        [appPackage, apkPath, fileName, appVersion, appBuild, apiKey]
+    }
+    private List getParamsFir(Project project, variant) {
         String appName = extension.getFirExtension().getAppName()
-        String appPackage = project.android.defaultConfig.applicationId
-        String appVersion = project.android.defaultConfig.versionName
-        String appBuild = project.android.defaultConfig.versionCode
-        String apkPath = variant.outputs.first().outputFile
-        File file = new File(apkPath)
-        String fileName = file.getName()
+        def (String appPackage, String apkPath, String fileName, String appVersion, String appBuild) = getCommon(project, variant)
         String apkIconPath = project.android.applicationVariants.first().outputs.first().outputFile.parent.split("build")[0] + extension.getFirExtension().getIconPath()
         String apiTokenFir = extension.getFirExtension().getToken()
         // 获取上传凭证
@@ -89,6 +110,16 @@ class PluginImpl implements Plugin<Project> {
 //        println("文件路径:$apkPath")
 //        println("文件名称:$fileName")
         [appPackage, apiTokenFir, apkPath, fileName, appName, appVersion, appBuild, apkIconPath]
+    }
+
+    private List getCommon(Project project, variant) {
+        String appPackage = project.android.defaultConfig.applicationId
+        String appVersion = project.android.defaultConfig.versionName
+        String appBuild = project.android.defaultConfig.versionCode
+        String apkPath = variant.outputs.first().outputFile
+        File file = new File(apkPath)
+        String fileName = file.getName()
+        [appPackage, apkPath, fileName, appVersion, appBuild]
     }
 
 

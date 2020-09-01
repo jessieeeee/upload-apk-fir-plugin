@@ -68,7 +68,22 @@ public class OkHttpUtil{
         Request requestUrl = new Request.Builder().url(queryurl).get().build()
         Response responseUrl = okHttpClient.newCall(requestUrl).execute()
         String result = responseUrl.body.string()
-        return gson.fromJson(result,ApkInfo.class)
+        return gson.fromJson(result, ApkInfo.class)
+    }
+
+    UploadApp uploadApkPgyer(String apkPath,String apiKey,String fileName) {
+        String upload_url = "https://www.pgyer.com/apiv2/app/upload"
+        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), new File(apkPath))
+        MultipartBody body = new MultipartBody.Builder()
+                .setType(MediaType.parse("multipart/form-data"))
+                .addFormDataPart("_api_key", apiKey)
+                .addFormDataPart("file", fileName, fileBody)
+                .build()
+        Request requestApk = new Request.Builder().url(upload_url).post(body).build()
+
+        Response response = okHttpClient.newCall(requestApk).execute()
+        String result = response.body.string()
+        return gson.fromJson(result, UploadApp.class)
     }
 
     void sendDingTalkLink(String text,String title,String url,String webHook){
