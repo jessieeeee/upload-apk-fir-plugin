@@ -41,7 +41,7 @@ class PluginImpl implements Plugin<Project> {
                     ApkInfo apkInfo = okHttpUtil.getApkUrl(appPackage,apiTokenFir)
                     println("下载链接:${apkInfo.installUrl}")
 
-                    sendDingTalk(appBuild, appVersion, okHttpUtil, apkInfo.installUrl,"")
+                    sendDingTalk(appBuild, appVersion, okHttpUtil, apkInfo.installUrl,apkPath,"")
                 }
 
                 // 在assembleDebug执行后执行
@@ -53,7 +53,7 @@ class PluginImpl implements Plugin<Project> {
                     OkHttpUtil okHttpUtil = new OkHttpUtil()
                     UploadApp uploadApp = okHttpUtil.uploadApkPgyer(apkPath, apiKey,fileName)
                     println("上传apk文件返回结果:$uploadApp")
-                    sendDingTalk(appBuild, appVersion, okHttpUtil, uploadApp.data.buildShortcutUrl,uploadApp.data.buildQRCodeURL)
+                    sendDingTalk(appBuild, appVersion, okHttpUtil, "https://www.pgyer.com/${uploadApp.data.buildShortcutUrl}",apkPath,uploadApp.data.buildQRCodeURL)
                 }
 
                 // 在assembleDebug执行后执行
@@ -62,7 +62,7 @@ class PluginImpl implements Plugin<Project> {
         }
     }
 
-    private void sendDingTalk(String appBuild, String appVersion, OkHttpUtil okHttpUtil, String installUrl, String qr) {
+    private void sendDingTalk(String appBuild, String appVersion, OkHttpUtil okHttpUtil, String installUrl,String apkPath, String qr) {
         def (String content, String title,String qrTitle,String qrContent,String webHook, boolean isAtAll, List<String> atMobiles) = getDingTalkParams()
         String dingTalkMsg = "点击跳转下载链接(版本号:$appBuild    版本名称:$appVersion)"
         if (content.length() > 0) {
@@ -76,7 +76,8 @@ class PluginImpl implements Plugin<Project> {
          * 发送钉钉消息
          */
         okHttpUtil.sendDingTalkLink(dingTalkMsg, title, installUrl, webHook)
-        okHttpUtil.sendDingTalkMsg(content, webHook, isAtAll, atMobiles)
+        String md5 = MD5Util.calcMD5(apkPath)
+        okHttpUtil.sendDingTalkMsg("${content}md5:${md5}", webHook, isAtAll, atMobiles)
     }
 
     private List getDingTalkParams() {
