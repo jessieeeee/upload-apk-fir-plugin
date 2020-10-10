@@ -19,6 +19,22 @@ apply plugin: 'com.demo.plugin'
 //}
 
 
+// 上传蒲公英平台配置
+//uploadApk {
+//    pgyer {
+//        apiKey = "蒲公英平台的apiKey"
+//    }
+//    dingTalk{
+//        webHook = "钉钉机器人的webhook"
+//        title = "Android：xxx打包完成"
+//        content = "带关键字的消息内容" //更新内容
+//        qrTitle = "Android：xxx二维码下载地址" // （蒲公英支持二维码获取）二维码标题
+//        qrContent = "带关键字的二维码下载消息内容" // （蒲公英支持二维码获取）二维码内容
+//        isAtAll = false  // 是否at所有人
+//        atMobiles = ["手机号1","手机号2"]   //at某些人
+//    }
+//
+//}
 
 android {
     compileSdkVersion 29

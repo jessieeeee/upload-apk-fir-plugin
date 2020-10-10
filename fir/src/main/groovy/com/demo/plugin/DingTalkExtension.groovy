@@ -6,6 +6,8 @@ public class DingTalkExtension {
     private String webHook
     private String title
     private String content
+    private String qrTitle
+    private String qrContent
     private boolean isAtAll
     private List<String> atMobiles
     @Inject
@@ -52,6 +54,21 @@ public class DingTalkExtension {
         this.atMobiles = atMobiles
     }
 
+    String getQrTitle() {
+        return qrTitle
+    }
+
+    void setQrTitle(String qrTitle) {
+        this.qrTitle = qrTitle
+    }
+
+    String getQrContent() {
+        return qrContent
+    }
+
+    void setQrContent(String qrContent) {
+        this.qrContent = qrContent
+    }
 
     @Override
     public String toString() {
