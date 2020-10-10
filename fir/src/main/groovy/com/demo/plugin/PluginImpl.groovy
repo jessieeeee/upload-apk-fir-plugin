@@ -56,6 +56,17 @@ class PluginImpl implements Plugin<Project> {
 
                 // 在assembleDebug执行后执行
                 uploadFir.dependsOn project.tasks["assemble${variant.name.capitalize()}"]
+
+
+                Task uploadFtp = project.task("assemble${variant.name.capitalize()}Ftp").doLast {
+                     println("sftp开始上传...")
+                     SftpUtil sftpUtil = new SftpUtil("root", "heWEI1218", "8.210.208.205", 22)
+                    sftpUtil.login()
+                    String apkPath = variant.outputs.first().outputFile
+                    sftpUtil.upload("/root/data/nginx/html/new_gilos", apkPath)
+                    sftpUtil.logout()
+                }
+                uploadFtp.dependsOn project.tasks["assemble${variant.name.capitalize()}"]
             }
         }
     }
