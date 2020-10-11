@@ -1,5 +1,5 @@
 # 自动上传fir并发送钉钉消息的Gradle插件
-自定义gradle插件实现自动化打包/上传fir/发送钉钉消息流程，解放你的双手，喝杯咖啡放松一下吧～欢迎使用/star/issue
+自定义gradle插件实现自动化打包上传/fir/蒲公英/自己服务器sftp/发送钉钉消息流程，解放你的双手，喝杯咖啡放松一下吧～欢迎使用/star/issue
 - 已打包上传JitPack，接入插件只需要两步：
 ## 修改根目录的gradle文件
 增加两行代码
@@ -16,9 +16,10 @@ buildscript {
 }
 ```
 ## 在app的gradle文件中增加以下代码
-引入插件并进行fir和钉钉消息的相关配置
+引入插件fir和钉钉消息的相关配置
 ```groovy
 apply plugin: 'com.demo.plugin'
+// 上传fir平台配置
 uploadApk {
     fir {
         appName = "你的app名称"
@@ -32,7 +33,43 @@ uploadApk {
         isAtAll = false  // 是否at所有人
         atMobiles = ["手机号1","手机号2"]   //at某些人
     }
+}
 
+// 上传蒲公英平台配置
+uploadApk {
+    pgyer {
+        apiKey = "蒲公英平台的apiKey"
+    }
+    dingTalk{
+        webHook = "钉钉机器人的webhook"
+        title = "Android：xxx打包完成"
+        content = "带关键字的消息内容" //更新内容
+        qrTitle = "Android：xxx二维码下载地址" // （蒲公英支持二维码获取）二维码标题
+        qrContent = "带关键字的二维码下载消息内容" // （蒲公英支持二维码获取）二维码内容
+        isAtAll = false  // 是否at所有人
+        atMobiles = ["手机号1","手机号2"]   //at某些人
+    }
+}
+// sftp上传自己的服务器配置
+uploadApk{
+    sftp {
+        username = "sftp用户名"
+        password = "sftp密码"
+        host = "sftp服务器地址"
+        port = 22 // sftp协议默认端口号
+        remotePath = "/xxx/xxx" // 上传到服务器的路径
+        installUrl = "http://xxx.xxx.xxx.xxx/" // 安装地址前缀
+        qrApiUrl = "生成二维码api地址"
+    }
+    dingTalk{
+        webHook = "钉钉机器人的webhook"
+        title = "Android：xxx打包完成"
+        content = "带关键字的消息内容" //更新内容
+        qrTitle = "Android：xxx二维码下载地址" // 二维码标题
+        qrContent = "带关键字的二维码下载消息内容" // 二维码内容
+        isAtAll = false  // 是否at所有人
+        atMobiles = ["手机号1","手机号2"]   //at某些人
+    }
 }
 ```
 ## 查看插件可执行命令
@@ -41,22 +78,33 @@ uploadApk {
 - 插件的执行命令为"assemble" + 打包任务名首字母大写 +"Fir"
 - 如果不清楚当前项目中有哪些打包任务名，在app的gradle文件中最外层任意位置增加以下代码，sync一下，打印插件所有的可执行命令
 ```groovy
- project.android.applicationVariants.all { variant ->
-    println("assemble${variant.name.capitalize()}Fir")
- }
+  // 上传Fir
+  project.android.applicationVariants.all { variant ->
+     println("assemble${variant.name.capitalize()}Fir")
+  }
+
+  // 上传蒲公英
+  project.android.applicationVariants.all { variant ->
+     println("assemble${variant.name.capitalize()}Pgyer")
+  }
+
+  // sftp上传自己的服务器
+  project.android.applicationVariants.all { variant ->
+     println("assemble${variant.name.capitalize()}Ftp")
+  }
 ```
 ## 执行插件命令
 在工程根目录下输入以下命令：
 1. 如果项目未配置flavor
 - debug包
-`gradle assembleDebugFir`
+`gradle assembleDebugFir` `gradle assembleDebugPgyer` `gradle assembleDebugFtp`
 - release包
-`gradle assembleReleaseFir`
+`gradle assembleReleaseFir` `gradle assembleReleasePgyer` `gradle assembleReleaseFtp`
 2. 配置了flavor，如flavor为googlePlay
 - debug包
-`gradle assembleGooglePlayDebugFir`
+`gradle assembleGooglePlayDebugFir` `gradle assembleGooglePlayDebugPgyer` `gradle assembleGooglePlayDebugFtp`
 - release包
-`gradle assembleGooglePlayReleaseFir`
+`gradle assembleGooglePlayReleaseFir` `gradle assembleGooglePlayReleasePgyer` `gradle assembleGooglePlayReleaseFtp`
 ## 钉钉机器人查看webHook
 ![钉钉机器人][1]
 ![钉钉机器人][2]
