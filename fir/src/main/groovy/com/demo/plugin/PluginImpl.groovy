@@ -58,6 +58,27 @@ class PluginImpl implements Plugin<Project> {
 
                 // 在assembleDebug执行后执行
                 uploadPgyer.dependsOn project.tasks["assemble${variant.name.capitalize()}"]
+
+
+                Task uploadFtp = project.task("assemble${variant.name.capitalize()}Ftp").doLast {
+                    println("sftp开始上传...")
+                    def (String appPackage,String apkPath,String fileName,String appVersion,String appBuild,String username,String password,String host,String port,String remotePath,String installUrl,String qrApiUrl) = getParamsSftp(project,variant)
+                    try{
+                        int portNumber = Integer.parseInt(port)
+                        SftpUtil sftpUtil = new SftpUtil(username,password,host,portNumber)
+                        sftpUtil.login()
+                        sftpUtil.upload(remotePath, apkPath)
+                        sftpUtil.logout()
+                        String installApkUrl = "${installUrl}${fileName}"
+                        String qrUrl = "${qrApiUrl}${installApkUrl}"
+                        OkHttpUtil okHttpUtil = new OkHttpUtil()
+                        sendDingTalk(appBuild, appVersion, okHttpUtil, installApkUrl, apkPath, qrUrl)
+                    }
+                    catch (NumberFormatException e){
+                        println("端口号应该为数字")
+                    }
+                }
+                uploadFtp.dependsOn project.tasks["assemble${variant.name.capitalize()}"]
             }
         }
     }
@@ -78,34 +99,6 @@ class PluginImpl implements Plugin<Project> {
         okHttpUtil.sendDingTalkLink(dingTalkMsg, title, installUrl, webHook)
         String md5 = MD5Util.calcMD5(apkPath)
         okHttpUtil.sendDingTalkMsg("${content}md5:${md5}", webHook, isAtAll, atMobiles)
-                    def (String content, String title, String webHook, boolean isAtAll,List<String> atMobiles) = getDingTalkParams()
-                    String dingTalkMsg = "点击跳转下载链接(版本号:$appBuild    版本名称:$appVersion)"
-                    if (content.length() > 0){
-                        dingTalkMsg = "${dingTalkMsg}，此次更新:$content"
-                    }
-
-                    /**
-                     * 发送钉钉消息
-                     */
-                    okHttpUtil.sendDingTalkLink(dingTalkMsg,title,apkInfo.installUrl,webHook)
-                    okHttpUtil.sendDingTalkMsg(content,webHook,isAtAll,atMobiles)
-                }
-
-                // 在assembleDebug执行后执行
-                uploadFir.dependsOn project.tasks["assemble${variant.name.capitalize()}"]
-
-
-                Task uploadFtp = project.task("assemble${variant.name.capitalize()}Ftp").doLast {
-                     println("sftp开始上传...")
-                     SftpUtil sftpUtil = new SftpUtil("root", "heWEI1218", "8.210.208.205", 22)
-                    sftpUtil.login()
-                    String apkPath = variant.outputs.first().outputFile
-                    sftpUtil.upload("/root/data/nginx/html/new_gilos", apkPath)
-                    sftpUtil.logout()
-                }
-                uploadFtp.dependsOn project.tasks["assemble${variant.name.capitalize()}"]
-            }
-        }
     }
 
     private List getDingTalkParams() {
@@ -119,6 +112,18 @@ class PluginImpl implements Plugin<Project> {
         [content, title, qrTitle, qrContent, webHook, isAtAll, atMobiles]
     }
 
+    private List getParamsSftp(Project project, variant){
+        String username = extension.getSftpExtension().getUsername()
+        String password = extension.getSftpExtension().getPassword()
+        String host = extension.getSftpExtension().getHost()
+        String port = extension.getSftpExtension().getPort()
+        String remotePath = extension.getSftpExtension().getRemotePath()
+        String installUrl = extension.getSftpExtension().getInstallUrl()
+        String qrApiUrl = extension.getSftpExtension().getQrApiUrl()
+
+        def (String appPackage, String apkPath, String fileName, String appVersion, String appBuild) = getCommon(project, variant)
+        [appPackage, apkPath, fileName, appVersion, appBuild, username, password, host, port, remotePath, installUrl, qrApiUrl]
+    }
     private List getParamsPgyer(Project project, variant){
         String apiKey = extension.getPgyerExtension().getApiKey()
         def (String appPackage, String apkPath, String fileName, String appVersion, String appBuild) = getCommon(project, variant)

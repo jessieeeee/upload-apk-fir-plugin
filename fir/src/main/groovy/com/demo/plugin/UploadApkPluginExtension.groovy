@@ -7,10 +7,12 @@ class UploadApkPluginExtension {
     FirExtension firExtension
     DingTalkExtension dingTalkExtension
     PgyerExtension pgyerExtension
+    SftpExtension sftpExtension
     public UploadApkPluginExtension(ObjectFactory objectFactory) {
         firExtension = objectFactory.newInstance(FirExtension.class)
         dingTalkExtension = objectFactory.newInstance(DingTalkExtension.class)
         pgyerExtension = objectFactory.newInstance(PgyerExtension.class)
+        sftpExtension = objectFactory.newInstance(SftpExtension.class)
     }
 
     public void pgyer(Action<PgyerExtension> action) {
@@ -19,6 +21,10 @@ class UploadApkPluginExtension {
 
     public void fir(Action<FirExtension> action) {
         action.execute(firExtension)
+    }
+
+    public void sftp(Action<FirExtension> action){
+        action.execute(sftpExtension)
     }
 
     public void dingTalk(Action<DingTalkExtension> action){

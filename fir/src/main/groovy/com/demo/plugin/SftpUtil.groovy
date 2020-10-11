@@ -1,17 +1,11 @@
-package com.demo.plugin;
+package com.demo.plugin
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.SftpException;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Properties;
+import com.jcraft.jsch.Channel
+import com.jcraft.jsch.ChannelSftp
+import com.jcraft.jsch.JSch
+import com.jcraft.jsch.JSchException
+import com.jcraft.jsch.Session
+import com.jcraft.jsch.SftpException
 
 /**
  * @author: JessieKate
@@ -41,7 +35,7 @@ public class SftpUtil {
      * @param host
      * @param port
      */
-    public SftpUtil(String username, String password, String host, int port) {
+    SftpUtil(String username, String password, String host, int port) {
         this.username = username
         this.password = password
         this.host = host
@@ -54,7 +48,7 @@ public class SftpUtil {
      *
      * @throws Exception
      */
-    public void login(){
+    void login(){
         try {
             JSch jsch = new JSch()
             System.out.println("sftp connect by host:"+host+"username:"+username)
@@ -85,7 +79,7 @@ public class SftpUtil {
     /**
      * 关闭连接 server
      */
-    public void logout(){
+    void logout(){
         if (sftp != null) {
             if (sftp.isConnected()) {
                 sftp.disconnect()
@@ -112,7 +106,7 @@ public class SftpUtil {
      * @throws SftpException
      * @throws Exception
      */
-    public void upload(String directory, String sftpFileName, InputStream input) throws SftpException {
+    void upload(String directory, String sftpFileName, InputStream input) throws SftpException {
         try {
             sftp.cd(directory)
         } catch (SftpException e) {
@@ -135,7 +129,7 @@ public class SftpUtil {
      * @throws SftpException
      * @throws Exception
      */
-    public void upload(String directory, String uploadFile) throws FileNotFoundException, SftpException{
+    void upload(String directory, String uploadFile) throws FileNotFoundException, SftpException{
         File file = new File(uploadFile)
         upload(directory, file.getName(), new FileInputStream(file))
     }
