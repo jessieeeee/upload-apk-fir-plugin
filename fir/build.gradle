@@ -22,7 +22,7 @@ uploadArchives {
             //设置插件的GAV参数
             pom.groupId = 'com.demo.plugin'//你的包名
             pom.artifactId = 'firPlugin'
-            pom.version = '1.4' //版本号
+            pom.version = '1.7' //版本号
         }
     }
 }

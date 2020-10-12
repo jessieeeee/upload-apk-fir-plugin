@@ -106,7 +106,7 @@ public class SftpUtil {
      * @throws SftpException
      * @throws Exception
      */
-    void upload(String directory, String sftpFileName, InputStream input) throws SftpException {
+    void upload(String directory, File file) throws SftpException {
         try {
             sftp.cd(directory)
         } catch (SftpException e) {
@@ -114,7 +114,7 @@ public class SftpUtil {
             sftp.mkdir(directory)
             sftp.cd(directory)
         }
-        sftp.put(input, sftpFileName)
+        sftp.put(new FileInputStream(file), file.getName(), new SftpMonitor(file.length()))
         System.out.println("upload successful")
     }
 
@@ -131,7 +131,7 @@ public class SftpUtil {
      */
     void upload(String directory, String uploadFile) throws FileNotFoundException, SftpException{
         File file = new File(uploadFile)
-        upload(directory, file.getName(), new FileInputStream(file))
+        upload(directory, file)
     }
 
 

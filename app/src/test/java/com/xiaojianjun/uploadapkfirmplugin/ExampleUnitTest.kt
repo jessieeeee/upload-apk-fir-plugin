@@ -1,10 +1,8 @@
 package com.xiaojianjun.uploadapkfirmplugin
 
-import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.io.File
-import java.io.FileInputStream
-import java.io.InputStream
+
+
 
 /**
  * Example local unit test, which will execute on the development machine (host).
