@@ -8,11 +8,17 @@ class UploadApkPluginExtension {
     DingTalkExtension dingTalkExtension
     PgyerExtension pgyerExtension
     SftpExtension sftpExtension
+    GiteeExtension giteeExtension
     public UploadApkPluginExtension(ObjectFactory objectFactory) {
         firExtension = objectFactory.newInstance(FirExtension.class)
         dingTalkExtension = objectFactory.newInstance(DingTalkExtension.class)
         pgyerExtension = objectFactory.newInstance(PgyerExtension.class)
         sftpExtension = objectFactory.newInstance(SftpExtension.class)
+        giteeExtension = objectFactory.newInstance(GiteeExtension.class)
+    }
+
+    public void gitee(Action<GiteeExtension> action){
+        action.execute(giteeExtension)
     }
 
     public void pgyer(Action<PgyerExtension> action) {

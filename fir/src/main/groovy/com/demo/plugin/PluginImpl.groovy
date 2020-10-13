@@ -79,6 +79,20 @@ class PluginImpl implements Plugin<Project> {
                     }
                 }
                 uploadFtp.dependsOn project.tasks["assemble${variant.name.capitalize()}"]
+
+
+                Task uploadGitee = project.task("assemble${variant.name.capitalize()}Gitee").doLast {
+                    println("gitee开始上传...")
+                    def (String appPackage,String apkPath,String fileName,String appVersion,String appBuild,String accessToken,String message,String owner,String repo,String qrApiUrl) = getParamsGitee(project,variant)
+
+                    UploadUtil uploadUtil = new UploadUtil(accessToken, message)
+                    uploadUtil.upload(apkPath, fileName)
+                    String installApkUrl = "https://gitee.com/${owner}/${repo}/raw/master/${fileName}"
+                    String qrUrl = "${qrApiUrl}${installApkUrl}"
+                    OkHttpUtil okHttpUtil = new OkHttpUtil()
+                    sendDingTalk(appBuild, appVersion, okHttpUtil, installApkUrl, apkPath, qrUrl)
+                }
+                uploadGitee.dependsOn project.tasks["assemble${variant.name.capitalize()}"]
             }
         }
     }
@@ -110,6 +124,17 @@ class PluginImpl implements Plugin<Project> {
         String qrContent = extension.getDingTalkExtension().getQrContent()
         List<String> atMobiles = extension.getDingTalkExtension().getAtMobiles()
         [content, title, qrTitle, qrContent, webHook, isAtAll, atMobiles]
+    }
+
+    private List getParamsGitee(Project project, variant){
+        String accessToken = extension.getGiteeExtension().getAccessToken()
+        String message = extension.getGiteeExtension().getMessage()
+        String owner = extension.getGiteeExtension().getOwner()
+        String repo = extension.getGiteeExtension().getRepo()
+        String qrApiUrl = extension.getGiteeExtension().getQrApiUrl()
+
+        def (String appPackage, String apkPath, String fileName, String appVersion, String appBuild) = getCommon(project, variant)
+        [appPackage, apkPath, fileName, appVersion, appBuild, accessToken, message, owner, repo, qrApiUrl]
     }
 
     private List getParamsSftp(Project project, variant){

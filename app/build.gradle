@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.demo.plugin'
+//apply plugin: 'com.demo.plugin'
 //uploadApk {
 //    fir {
 //        appName = "你的app名称"
@@ -57,6 +57,27 @@ apply plugin: 'com.demo.plugin'
 //        atMobiles = ["手机号1","手机号2"]   //at某些人
 //    }
 //}
+
+
+// 上传gitee配置
+//uploadApk{
+//    gitee {
+//        accessToken = "私有token"
+//        message = "提交信息 commit message"
+//        owner = "用户名"
+//        repo = "公有仓库名称"
+//        qrApiUrl = "生成二维码api地址"
+//    }
+//    dingTalk{
+//        webHook = "钉钉机器人的webhook"
+//        title = "Android：xxx打包完成"
+//        content = "带关键字的消息内容" //更新内容
+//        qrTitle = "Android：xxx二维码下载地址" // 二维码标题
+//        qrContent = "带关键字的二维码下载消息内容" // 二维码内容
+//        isAtAll = false  // 是否at所有人
+//        atMobiles = ["手机号1","手机号2"]   //at某些人
+//    }
+//}
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -91,4 +112,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.jcraft:jsch:0.1.53'
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

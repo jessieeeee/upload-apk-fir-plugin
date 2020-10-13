@@ -71,6 +71,26 @@ uploadApk{
         atMobiles = ["手机号1","手机号2"]   //at某些人
     }
 }
+
+// 上传gitee配置
+uploadApk{
+    gitee {
+        accessToken = "私有token"
+        message = "提交信息 commit message"
+        owner = "用户名"
+        repo = "公有仓库名称"
+        qrApiUrl = "生成二维码api地址"
+    }
+    dingTalk{
+        webHook = "钉钉机器人的webhook"
+        title = "Android：xxx打包完成"
+        content = "带关键字的消息内容" //更新内容
+        qrTitle = "Android：xxx二维码下载地址" // 二维码标题
+        qrContent = "带关键字的二维码下载消息内容" // 二维码内容
+        isAtAll = false  // 是否at所有人
+        atMobiles = ["手机号1","手机号2"]   //at某些人
+    }
+}
 ```
 ## 查看插件可执行命令
 - 兼容所有flavor下的debug/release打包
@@ -92,19 +112,24 @@ uploadApk{
   project.android.applicationVariants.all { variant ->
      println("assemble${variant.name.capitalize()}Ftp")
   }
+
+  // sftp上传Gitee
+  project.android.applicationVariants.all { variant ->
+     println("assemble${variant.name.capitalize()}Gitee")
+  }
 ```
 ## 执行插件命令
 在工程根目录下输入以下命令：
 1. 如果项目未配置flavor
 - debug包
-`gradle assembleDebugFir` `gradle assembleDebugPgyer` `gradle assembleDebugFtp`
+`gradle assembleDebugFir` `gradle assembleDebugPgyer` `gradle assembleDebugFtp` `gradle assembleDebugGitee`
 - release包
-`gradle assembleReleaseFir` `gradle assembleReleasePgyer` `gradle assembleReleaseFtp`
+`gradle assembleReleaseFir` `gradle assembleReleasePgyer` `gradle assembleReleaseFtp` `gradle assembleReleaseGitee`
 2. 配置了flavor，如flavor为googlePlay
 - debug包
-`gradle assembleGooglePlayDebugFir` `gradle assembleGooglePlayDebugPgyer` `gradle assembleGooglePlayDebugFtp`
+`gradle assembleGooglePlayDebugFir` `gradle assembleGooglePlayDebugPgyer` `gradle assembleGooglePlayDebugFtp` `gradle assembleGooglePlayDebugGitee`
 - release包
-`gradle assembleGooglePlayReleaseFir` `gradle assembleGooglePlayReleasePgyer` `gradle assembleGooglePlayReleaseFtp`
+`gradle assembleGooglePlayReleaseFir` `gradle assembleGooglePlayReleasePgyer` `gradle assembleGooglePlayReleaseFtp` `gradle assembleGooglePlayReleaseGitee`
 ## 钉钉机器人查看webHook
 ![钉钉机器人][1]
 ![钉钉机器人][2]
