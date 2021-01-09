@@ -95,8 +95,10 @@ uploadApk{
 ## 查看插件可执行命令
 - 兼容所有flavor下的debug/release打包
 - gradle的打包任务名为flavor和debug/release模式组合而成
-- 插件的执行命令为"assemble" + 打包任务名首字母大写 +"Fir"
-- 如果不清楚当前项目中有哪些打包任务名，在app的gradle文件中最外层任意位置增加以下代码，sync一下，打印插件所有的可执行命令
+- 插件的执行命令为"assemble" + 打包任务名首字母大写 + "上传平台"
+- 如果不清楚当前项目中有哪些打包任务名，2种方式可以查看
+1. Android Studio右侧gralde插件执行任务中选择APP工程下的other一栏查看插件所有的可执行命令
+2. 在app的gradle文件中最外层任意位置增加以下代码，sync一下，打印插件所有的可执行命令
 ```groovy
   // 上传Fir
   project.android.applicationVariants.all { variant ->
